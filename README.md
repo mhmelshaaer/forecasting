@@ -27,3 +27,12 @@ Before running the below command, make sure that you build the client docker ser
 as mentioned in the previous section point No. 4
 
 1. From the client directory, run: `docker-compose -f docker-compose.yml -f docker-compose.test.yml up test`.
+
+## System Design
+
+![System Design](forecasting-system-design.png "System Design")
+
+## Class Diagram
+
+![Class Diagram](forecasting-class-diagram.png "Class Diagram")
+
