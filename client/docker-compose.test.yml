@@ -1,0 +1,11 @@
+version: "3.7"
+
+networks:
+  forecasting-server:
+    name: ${SERVER_NETWORK:-server}
+
+services:
+
+  test:
+    image: forecasting-client:latest
+    entrypoint: "/bin/sh -c ./test/test"
