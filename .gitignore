@@ -3,4 +3,4 @@ client/*build*
 .vscode/
 .idea/
 server/.env
-server/.env
+client/.env
