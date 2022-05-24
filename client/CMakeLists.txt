@@ -11,6 +11,7 @@ if(NOT SERVER_HOST_NAME)
 endif()
 
 add_subdirectory(lib/net-client-server)
+add_subdirectory(test)
 
 add_executable(${target} main.cpp)
 target_compile_definitions(${target} PUBLIC SERVER_HOST_NAME=${SERVER_HOST_NAME})
