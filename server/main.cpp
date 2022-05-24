@@ -1,4 +1,5 @@
 #include <iostream>
+#include <random>
 
 // For listening for Ctrl + c
 #include <cstdio>
@@ -10,7 +11,7 @@ enum class MessageTypes : uint32_t
 	ServerAccept,
 	ServerDeny,
 	ServerPing,
-	ServerMessage,
+	NodeTemperature,
 };
 
 namespace forecasting::net
@@ -22,10 +23,10 @@ namespace forecasting::net
 
 namespace fnet = forecasting::net;
 
-class CustomServer : public forecasting::net::Server
+class SensoryNode : public forecasting::net::Server
 {
 public:
-	CustomServer(uint16_t nPort) : fnet::Server(nPort)
+	SensoryNode(uint16_t nPort) : fnet::Server(nPort)
 	{
 
 	}
@@ -62,6 +63,40 @@ protected:
 };
 
 bool bQuit = false;
+typedef float temperature_t;
+temperature_t curr_temp;
+std::mutex mu;
+std::condition_variable read_temperature;
+
+void temperature_sensor() {
+	std::random_device dev;
+    std::mt19937 rng(dev());
+    std::uniform_real_distribution<temperature_t> generate_temp(-30.0f, 50.0f);
+
+	while (!bQuit) {
+		std::unique_lock<std::mutex> locker(mu);
+		curr_temp = generate_temp(rng);
+		locker.unlock();
+		read_temperature.notify_one();
+		std::this_thread::sleep_for(std::chrono::seconds(1));
+	}
+	read_temperature.notify_all();
+	std::cout << "Sensor exit\n";
+}
+
+void temperature_reader(fnet::Server& server) {
+	while(!bQuit) {
+		std::unique_lock<std::mutex> locker(mu);
+		read_temperature.wait(locker);
+		locker.unlock();
+		fnet::Message message;
+		message.header.id = MessageTypes::NodeTemperature;
+		message << curr_temp;
+		server.MessageAllClients(message);
+		std::cout << "Current temperature: " << curr_temp << std::endl;
+	}
+	std::cout << "Reader exit\n";
+}
 
 /**
  * Signal handler.
@@ -86,12 +121,16 @@ void listen_for_ctrl_c() {
 }
 
 int main() {
-	CustomServer server(60000);
+    listen_for_ctrl_c();
+    
+	SensoryNode server(60000);
 	server.Start();
-
-    while(!bQuit) {
-        server.Update();
-    }
+	
+	std::thread reader(temperature_reader, std::ref(server));
+	std::thread thermometer(temperature_sensor);
+	
+	thermometer.join();
+	reader.join();
 
 	return 0;
 }
