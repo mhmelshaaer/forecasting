@@ -19,3 +19,11 @@ Docker Compose.
 5. Run the server: `docker-compose up server`.
 6. Run the client: `docker-compose up client`. You can scale the clients as many as
     you want. Ex. `docker-compose up --scale client=5 client`.
+
+
+### Run Tests
+
+Before running the below command, make sure that you build the client docker service
+as mentioned in the previous section point No. 4
+
+1. From the client directory, run: `docker-compose -f docker-compose.yml -f docker-compose.test.yml up test`.
