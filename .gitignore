@@ -1,5 +1,6 @@
 server/*build*
 client/*build*
-.vscode
-.idea
-.env
+.vscode/
+.idea/
+server/.env
+server/.env

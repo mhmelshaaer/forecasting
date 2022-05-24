@@ -3,6 +3,13 @@
 
 #include <libnet.hpp>
 
+#define MAKE_STR(x) _MAKE_STR(x)
+#define _MAKE_STR(x) #x
+
+#ifndef SERVER_HOST_NAME
+#define SERVER_HOST_NAME "server"
+#endif
+
 enum class MessageTypes : uint32_t
 {
 	ServerAccept,
@@ -144,7 +151,7 @@ int main() {
 	std::thread t3(consume_accumulation_tasks);
 
 	SensoryNodeClient c;
-	c.Connect("localhost", 60000);
+	c.Connect(MAKE_STR(SERVER_HOST_NAME), 60000);
 
 	while (!bQuit)
 	{

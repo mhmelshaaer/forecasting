@@ -1,0 +1,17 @@
+version: "3.7"
+
+networks:
+  forecasting-server:
+    external: true
+    name: ${SERVER_NETWORK:-server}
+
+services:
+
+  client:
+    image: forecasting-client:latest
+    networks:
+      - forecasting-server
+    build:
+      context: .
+      args:
+        - SERVER_HOST_NAME=$SERVER_HOST_NAME

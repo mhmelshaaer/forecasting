@@ -1,0 +1,14 @@
+version: "3.7"
+
+networks:
+  forecasting-server:
+    name: ${SERVER_NETWORK:-server}
+
+services:
+
+  server:
+    image: forecasting-server:latest
+    networks:
+      - forecasting-server
+    build:
+      context: .
