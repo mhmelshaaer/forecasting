@@ -5,7 +5,7 @@
 #ifndef LIB_TEST_NET_CLIENT_HPP
 #define LIB_TEST_NET_CLIENT_HPP
 
-namespace olc {
+namespace forecasting {
     namespace net {
         template<typename T>
     class client_interface {

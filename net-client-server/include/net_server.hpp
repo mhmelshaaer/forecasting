@@ -5,7 +5,7 @@
 #ifndef LIB_TEST_NET_SERVER_HPP
 #define LIB_TEST_NET_SERVER_HPP
 
-namespace olc
+namespace forecasting
 {
 	namespace net
 	{

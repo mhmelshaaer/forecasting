@@ -7,7 +7,7 @@
 
 #include "net_common.hpp"
 
-namespace olc {
+namespace forecasting {
     namespace net {
 	    template <typename T>
         class connection;

@@ -5,12 +5,10 @@
 #ifndef NET_COMMON_NET_MESSAGE_H
 #define NET_COMMON_NET_MESSAGE_H
 
-namespace olc
+namespace forecasting
 {
     namespace net
     {
-        ///[OLC_HEADERIFYIER] START "MESSAGE"
-
         // Message Header is sent at start of all messages. The template allows us
         // to use "enum class" to ensure that the messages are valid at compile time
         template <typename T>
@@ -118,7 +116,6 @@ namespace olc
             }
         };
   
-        ///[OLC_HEADERIFYIER] END "MESSAGE"
     }
 }
 
